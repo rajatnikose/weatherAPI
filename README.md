@@ -1,144 +1,149 @@
-# weatherAPI
+# OpenWeatherAPI-TestingFramework
+A testing framework designed to test the functionality of the OpenWeatherAPI
+
+# Service Object Model Structure
+>The SOM structure was the structure the testing framework followed. The SOM structure is a design pattern which breaks down the service of objects for a REST API. Since the API has a variety of different responses this pattern was chosen.
+
+# Framework Components
+#### **Connection Manager**
+> The connection manager class is accessed by the testing framework in order to establish a connection to the desired URL. The hashmap takes an enum for the desired endpoint and returns a hashmap with the combined url along with the original query parameters.   
+#### **DTO**
+> The DTO classes are used in order to identify the design pattern conceived from the API and produce a class which identifies the data and data types of the field within the api and produces getters which allow us to access the fields of the API.
+
+#### **Injector**
+> The injector class is the 'tool' used to inject the data from the api into the suitable DTO allowing the framework to get access to the data in each field so that the framework is able to test them.
+
+# How to use
+- The first step is to pull the testing framework from the master branch in github
+- Once the testing framework has been pulled the next step is to load and build the testing framework via desired application
+- The testing framework
+
+# Helper methods
+
+### IsFeelsLike Helper method
+
+- isFeelsLike`{units}`GreaterThanMin() 
+
+- Example for isFeelsLike field:
+>responseDTO.isFeelsLikeMetricGreaterThanMin()
+>
+>Will return a boolean value that checks if the getFeelsLike in units field is greater than or equal to its min
+
+>For units: Standard,  Metric, Imperial 
+
+### is`Bound`TempGreaterThanZero`Unit`
+`Bound:`
+- Min
+- Max
+
+`Unit:`
+- Kelvin
+- Celcius
+- Fahrenheit
+
+#### E.g. isMaxTempGreaterThanZeroCelcius:
+- Checks whether the max temperature is greater than
+absolute zero.
+
+### Is Min Temp Less Than Max Temp Helper
+
+isMinTempLessThanMaxTempKelvin() 
+>will return a boolean that checks the minimum tmperature is less than or equal to maximum temperature.
+
+### is Temp Greater Than Or Equal To Helper
+- isTempGreaterThan0Kelvin()
+- isTempGreaterThanMinus273Celcius()
+- isTempGreaterThanMinus459Fahrenheit()
+
+Example for isTempGreaterThanOrEqualTo usage:
+> responseDTO.isTempGreaterThan0Kelvin()
+> 
+> Will return true if temp called is greater or equal to 0. This should be called when the standard measuring unit is being used.
 
 
-OpenWeatherAPI Testing Framework
+For units: Standard, Metric, Imperial 
 
-A robust testing framework designed to validate the functionality and reliability of the WeatherAPI. This framework leverages the Service Object Model (SOM) structure to efficiently handle the diverse responses from the API, ensuring comprehensive test coverage.
+### Is Sunset/Sunrise Helper
 
-Table of Contents
+is{fieldname}TimeLong()
 
-- [Service Object Model Structure]
-- [Framework Components]
-  - [Connection Manager]
-  - [Data Transfer Objects (DTO)]
-  - [Injector]
-- [Helper Methods]
-  - [IsFeelsLike Helper Method]
-  - [Bound Temperature Helpers]
-  - [Temperature Comparison Helpers]
-  - [Sunset/Sunrise Time Helpers]
-  - [City Validation Helpers]
-  - [Range Validation Helpers]
-  - [Weather Item DTO Validation]
-  - [Non-Negative Field Helpers]
-- [Usage Instructions]
-  - [Setup]
-  - [Writing Tests]
-- [Available Endpoints]
-  - [Variable Declaration]
-  - [Before All Tests]
-  - [Before Each Test]
-  - [Basic Search Test]
+Example for ID field:
+> responseDTO.isSunsetTimeLong()
+>
+> Will return true if sunset is of Long type given by a OpenWeather call response.
 
- Service Object Model Structure
+is{fieldname}Time()
 
-The Service Object Model (SOM) structure is the architectural backbone of the testing framework. SOM is a design pattern tailored for breaking down services of objects in a REST API. Given the OpenWeatherAPI's variety of responses, SOM ensures that each response type is systematically handled, promoting scalability and maintainability.
+Example for ID field:
+> responseDTO.isSunsetTime()
+>
+> Will return true if sunset is not null given by a OpenWeather call response.
 
- Framework Components
+### Is Correct City Helper
 
-Connection Manager
+isCorrectyCity{fieldname}
 
-The `ConnectionManager` class is pivotal for establishing connections to desired API endpoints. It utilizes a `HashMap` that accepts an enum representing the endpoint and returns a `HashMap` containing the combined URL along with the original query parameters.
+Example for ID field:
+> responseDTO.isCorrectCityID()
+>
+> Will return true if the city and ID are correct according to the citylist given by OpenWeather
 
-- Key Features:
-  - Manages API endpoint connections.
-  - Handles URL construction with query parameters.
-  - Supports various endpoints through an enum.
+For fields: ID, Longitude, Latitude
 
-Data Transfer Objects (DTO)
+### Is Field Greater Than And Less Than Helper
 
-DTO classes are essential for mapping the API's response structure. They identify the data patterns and define classes that encapsulate the data and its types. Each DTO provides getters to access specific fields from the API response.
+is{Field}GreaterThan{MinValue}AndLessThan{MaxValue}
 
-- Key Features:
-  - Represents structured API responses.
-  - Provides type-safe access to data fields.
-  - Facilitates easy manipulation and testing of response data.
+> responseDTO.isMainHumidityGreaterThan0AndLessThan100()  
+> Takes no parameters and returns a boolean, indicating whether the specified field is within the range given.
 
-Injector
+Fields that use this:
+* MainHumidity (min: 0, max: 100)
+* CoordLat (min: Minus90, max: 90)
+* CoordLon (min: Minus180, max: 180)
 
-The `Injector` class acts as a tool to transfer data from the API into the appropriate DTOs. This enables the framework to access and test each field's data effectively.
 
-- Key Features:
-  - Injects API response data into DTOs.
-  - Ensures data consistency and integrity.
-  - Streamlines the testing process by providing structured data access.
+### Is Weather Item DTO Valid Helper
 
- Helper Methods
+> response.isWeatherItemDTOValid(WeatherItemDTO weatherItemDTO)  
+> Takes in a weather item DTO object as a parameter and returns a boolean, indicating whether the key value pairs match the weather codes given [here](https://openweathermap.org/weather-conditions)
 
-The framework includes a suite of helper methods designed to validate various aspects of the API responses. These methods enhance test readability and reusability.
+### Is Field Greater Than or Equal To Zero Helper
+>
+>is{field}GreaterThanOrEqualToZero()
+Field: RainH1 ,RainH3, SeaLevel, WindSpeed
+Field:
+- RainH1
+- RainH3
+- SeaLevel
+- WindSpeed
+#### E.g. isRainH1GreaterThanOrEqualToZero
+- Will return boolean value true if value is greater than or equal to zero.
 
- IsFeelsLike Helper Method
+## Instructions
 
-- Method Signature: `isFeelsLike{Units}GreaterThanMin()`
+Firstly it is necessary to declare the below variables, the hashmap that contains the parameters, as well as the response DTO that contains the returned information.
 
- Bound Temperature Helpers
+![VariableDeclaration.png](Images%20For%20ReadMe/VariableDeclaration.png)
 
-- Method Signature: `isMaxTempGreaterThanZero{Unit}()`
+The Parameters need to be instantiated so that they are ready to use.
 
-Temperature Comparison Helpers
+![BeforeAll.png](Images%20For%20ReadMe/BeforeAll.png)
 
-- Method Signature:`isMinTempLessThanMaxTemp{Unit}()`
+It is recommended that after each test the Connection manager has its parameters Reset so that there is no data leaked between tests.
 
- Sunset/Sunrise Time Helpers
+![BeforeEach.png](Images%20For%20ReadMe/BeforeEach.png)
 
-- Method Signatures:
-  - `is{FieldName}TimeLong()`
-  - `is{FieldName}Time()`
+Once the set-up has been completed the next step is to select the parameters you wish to use, for a basic search the q parameter can be used via the process shown below
 
- City Validation Helpers
+![ExampleTest.png](Images%20For%20ReadMe/ExampleTest.png)
 
-- Method Signature: `isCorrectCity{FieldName}()`
+### The available endpoints are shown within the ENDPOINTS enum located in the connection manager
 
- Range Validation Helpers
+- WEATHER_Q allows searching without specifying a specific search query
+- WEATHER_CITY_ID allows searching using the city id as the search parameter
+- WEATHER_ZIP allows searching using the zipcode or partial zipcode as the parameter
+- BOX is a WIP
 
-- Method Signature: `is{Field}GreaterThan{MinValue}AndLessThan{MaxValue}()`
+![endpoints.png](Images%20For%20ReadMe/endpoints.png)
 
-Weather Item DTO Validation
-
-- Method Signature: `isWeatherItemDTOValid(WeatherItemDTO weatherItemDTO)`
-- Description: Validates that the key-value pairs in a `WeatherItemDTO` object match the expected weather codes.
-- Parameters: 
-  - `WeatherItemDTO weatherItemDTO` – The DTO object to validate.
-
- Non-Negative Field Helpers
-
-- Method Signature: `is{Field}GreaterThanOrEqualToZero()`
-- Fields Supported: RainH1, RainH3, SeaLevel, WindSpeed
-
- Usage Instructions
-
- Setup
-
-1. Clone the Repository:
-   bash
-   git clone
-   
-2. Build the Framework:
-   - Use your preferred build tool (e.g., Maven, Gradle) to load and build the testing framework.
-
-Writing Tests
-
-1. Declare Variables:
-   - Initialize the necessary variables, including the `HashMap` for parameters and the `ResponseDTO` for storing API responses.
-  
-2. Instantiate Parameters:
-   - Ensure that the parameters are set up and ready for use.
- 
-3. Setup and Teardown:
-   - Before All Tests:
-     - Perform any global setup required before running tests.
-     
-   - Before Each Test:
-     - Reset the `ConnectionManager` to prevent data leakage between tests.
-    
-4. Select Parameters and Execute Test:
-   - Choose the desired parameters and execute the API call.
-   
- Available Endpoints
-
-The `ENDPOINTS` enum within the `ConnectionManager` defines the available API endpoints:
-
-- WEATHER_Q: Search without specifying a specific query.
-- WEATHER_CITY_ID: Search using the city ID as the parameter.
-- WEATHER_ZIP: Search using the ZIP code or partial ZIP code as the parameter.
-- BOX: Work in Progress (WIP).
