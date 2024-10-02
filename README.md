@@ -124,19 +124,23 @@ Field:
 
 Firstly it is necessary to declare the below variables, the hashmap that contains the parameters, as well as the response DTO that contains the returned information.
 
-![VariableDeclaration.png](Images%20For%20ReadMe/VariableDeclaration.png)
+![image](https://github.com/user-attachments/assets/4f33c97b-3e85-41fc-a587-9744761266a2)
+
 
 The Parameters need to be instantiated so that they are ready to use.
 
-![BeforeAll.png](Images%20For%20ReadMe/BeforeAll.png)
+![image](https://github.com/user-attachments/assets/e1ccd500-e731-4fcc-a4be-fc9024f9162a)
+
 
 It is recommended that after each test the Connection manager has its parameters Reset so that there is no data leaked between tests.
 
-![BeforeEach.png](Images%20For%20ReadMe/BeforeEach.png)
+![image](https://github.com/user-attachments/assets/b0b543b2-54bd-43cb-9441-6eb7ccb6d75e)
+
 
 Once the set-up has been completed the next step is to select the parameters you wish to use, for a basic search the q parameter can be used via the process shown below
 
-![ExampleTest.png](Images%20For%20ReadMe/ExampleTest.png)
+![image](https://github.com/user-attachments/assets/c3b00354-6c0e-48d9-a887-5161bd60c2d5)
+
 
 ### The available endpoints are shown within the ENDPOINTS enum located in the connection manager
 
@@ -145,5 +149,6 @@ Once the set-up has been completed the next step is to select the parameters you
 - WEATHER_ZIP allows searching using the zipcode or partial zipcode as the parameter
 - BOX is a WIP
 
-![endpoints.png](Images%20For%20ReadMe/endpoints.png)
+![image](https://github.com/user-attachments/assets/c027266f-c83f-43c4-8798-1e666e4139c4)
+
 
